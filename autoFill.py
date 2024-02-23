@@ -14,14 +14,15 @@ def autoFill(opts=[''], val='',txt='',placehold='Please type here...',callback=F
         selDropBox.layout.display='none'         
     def textFunc(value):
         matched = False
-        if (len(value.new)>len(value.old)):
-            if (len(value.new)>2):
+        if (len(value.new)!=len(value.old)):
+            if (len(value.new)>0):
                 word = value.new
                 out = [word]
                 for mystring in opts:
                     if word.lower() in mystring.lower(): 
                         if (mystring.lower()==word.lower()):
                             matched = True
+                            final = mystring
                         out.append(mystring)
                 if (not matched):
                     drop.layout.visibility='visible'
@@ -30,8 +31,12 @@ def autoFill(opts=[''], val='',txt='',placehold='Please type here...',callback=F
                     out.append('')
                     drop.options=out 
                 else:
+                    text.value = final
                     dropClose()                    
-        
+            else:
+                text.value = ''
+                dropClose()
+
     drop = Select(
                 options=opts,
                 value=val,
